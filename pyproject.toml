@@ -1,0 +1,18 @@
+[project]
+name = "rexa"
+version = "0.1.0"
+description = "A powerful regex utility library for validation, extraction, and conversion"
+authors = [
+  { name = "Arshia Saberian", email = "arshia82sbn@gmail.com" }
+]
+dependencies = [
+  "re",
+  "regex",
+  "dateparser",
+  "pydantic >=2.0.0"
+]
+
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
