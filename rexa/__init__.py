@@ -7,6 +7,7 @@ from .validation   import Validator
 from .extraction   import RexExtractor
 from .conversion   import RexConverter
 from .formatting   import RexFormatter
+from .texttools import TextTools
 
 # Unified class that wraps all functionalities (optional)
 class Rex:
@@ -24,3 +25,4 @@ class Rex:
         self.extractor = RexExtractor()
         self.converter = RexConverter()
         self.formatter = RexFormatter()
+        self.text_tools = TextTools()

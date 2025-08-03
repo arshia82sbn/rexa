@@ -1,0 +1,4 @@
+re
+regex
+dateparser
+pydantic>=2.0.0

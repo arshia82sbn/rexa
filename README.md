@@ -1,77 +1,95 @@
 # rexa
 
-**rexa** is a lightweight and modular Python library for regular expression (regex) utilities, offering easy-to-use tools for validation, extraction, conversion, and formatting. Designed for developers who need powerful yet readable regex functionalities, `rexa` keeps your code clean and your logic centralized.
+**rexa** is a lightweight, modular Python library for advanced text processing and regular expression (regex) utilities. It empowers developers by centralizing common validation, extraction, conversion, formatting, and natural language preprocessing workflows into a clean, object‑oriented API.
 
 ---
 
 ## ✨ Features
 
-- Validate common patterns: email, phone number, IP address, date, etc.
-- Extract specific data from unstructured text.
-- Convert between different formats (dates, numbers, text).
-- Format and normalize messy strings.
-- Fully modular and extensible design.
-- Written in modern Python with object-oriented architecture.
-- Fully tested with `pytest`.
+- **Validation & Matching**: Validate emails, phone numbers, URLs, dates, UUIDs, and more with `Validator` methods (`Is_*`, `Match_*`).
+- **Extraction**: Pull out emails, links, phone numbers, dates, IPs, and UUIDs from unstructured text using `Extractor`.
+- **Conversion & Formatting**: Transform text formats—normalize spaces, swap date separators, remove thousand separators, generate URL slugs.
+- **TextTools Utility**: Advanced text cleaning and NLP helpers in `texttools.py`:
+  - Case conversion (upper/lower)
+  - Emoji, punctuation, number, and mention removal
+  - URL & email stripping
+  - Stop‑word removal, lemmatization, stemming
+  - Language detection, token counting, word‑length filtering
+  - Arabic character normalization
+- **Fully Tested**: 100% coverage via `pytest`, ensuring reliability.
 
 ---
 
-## 🚀 Quick Start
+## 🗂️ Installation
 
-### Installation
+Install from PyPI:
 
-```
+```bash
 pip install rexa
 ```
 
-> Alternatively, if you're cloning manually:
+Or clone and install locally:
 
-```
-git clone https://github.com/your-username/rexa.git
+```bash
+git clone https://github.com/arshia82sbn/rexa.git
 cd rexa
 pip install .
 ```
 
 ---
 
-## 📚 Usage
+## 📦 Project Structure
 
-```python
-from rexa import Rex
-
-rex = Rex()
-
-# Validation
-rex.Is_Email("user@example.com")           # True
-rex.Is_Date("2025-08-02")                  # True
-
-# Extraction
-rex.Extract_Emails("Contact: a@b.com, c@d.com")
-# ['a@b.com', 'c@d.com']
-
-# Conversion
-rex.Convert_DateFormat("02.08.2025", from_sep=".", to_sep="/")
-# '02/08/2025'
-
-# Formatting
-rex.Slugify("Hello, World!")
-# 'hello-world'
+```
+rexa/
+├── rexa/
+│   ├── __init__.py
+│   ├── validation.py      # Validator class: Is_*/Match_* methods
+│   ├── extraction.py      # Extractor class: Extract_* methods
+│   ├── conversion.py      # Converter class: Convert_* methods
+│   ├── formatting.py      # Formatter class: Normalize/Strip methods
+│   └── texttools.py       # TextTools class: NLP and cleaning utilities
+├── tests/
+│   └── test_rex.py        # pytest suite
+├── pyproject.toml
+├── README.md
+└── LICENSE
 ```
 
 ---
 
-## 🗂️ Modules
+## 🛠️ Usage Examples
 
-- `validation.py`: Input pattern validation functions
-- `extraction.py`: Email, phone, and pattern extraction
-- `conversion.py`: Format transformations for text and numbers
-- `formatting.py`: Text normalization and cleanup
+### Regex Validation & Extraction
+```python
+from rexa import Rex
+rex = Rex()
+# Validation
+assert rex.Is_Email("user@example.com")
+# Extraction
+emails = rex.Extract_Emails("a@a.com, b@b.org")
+```  
+
+### Text Cleaning & NLP
+```python
+from rexa.texttools import TextTools
+text = "@john Hello 😊! Visit https://example.com"
+clean = TextTools.clean_text(
+    text,
+    lowercase=True,
+    remove_emoji=True,
+    remove_username=True,
+    remove_urls_emails=True,
+    remove_punct=True
+)
+print(clean)
+```  
 
 ---
 
-## ✅ Tests
+## ✅ Testing
 
-All functions are fully tested with `pytest`. To run tests:
+Run unit tests:
 
 ```bash
 pytest -q
@@ -81,14 +99,17 @@ pytest -q
 
 ## 🌐 Compatibility
 
-- Python 3.7+
-- No external dependencies (only standard library and `re` module)
+- Python 3.10+
+- Dependencies:
+  - `regex`  
+  - `dateparser`  
+  - `pydantic >=2.0.0`  
+  - `nltk`  
+  - `langdetect`
 
 ---
 
-## 🛍️ Feedback & Contributions
 
-Issues, suggestions, and pull requests are welcome!
+## 🤝 Contributions
 
-Start using `rexa` today to supercharge your regex workflows with elegant and maintainable Python code.
-
+Issues, suggestions, and pull requests are welcome! Please see `CONTRIBUTING.md` for guidelines.

@@ -1,17 +1,28 @@
 [project]
 name = "rexa"
-version = "0.1.0"
-description = "A powerful regex utility library for validation, extraction, and conversion"
+version = "0.2.2"
+description = "A powerful regex utility library for validation, extraction, conversion, and formatting.\nA powerful NLP utility library for some amazing text tools"
+readme = "usage_guide.md"
 authors = [
   { name = "Arshia Saberian", email = "arshia82sbn@gmail.com" }
 ]
 dependencies = [
-  "re",
   "regex",
   "dateparser",
-  "pydantic >=2.0.0"
+  "pydantic >=2.0.0",
+  "nltk",
+  "langdetect"
 ]
-
+requires-python = ">=3.10"
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Operating System :: OS Independent",
+  "Intended Audience :: Developers",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Text Processing :: Linguistic"
+]
 
 [build-system]
 requires = ["setuptools", "wheel"]
