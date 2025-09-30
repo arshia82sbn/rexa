@@ -1,80 +1,89 @@
+# rexa/conversion.py
+
 import re
-from typing import Optional
-from datetime import datetime
+from utils.Logger import get_logger
 
+logger = get_logger()
 
-class RexConverter:
+"""
+RexConverter: A class for converting raw text formats to more usable or standardized forms.
+"""
+
+def Convert_MultipleSpaces(text: str) -> str:
     """
-    RexConverter: A class for converting raw text formats to more usable or standardized forms.
+    Convert multiple consecutive spaces into a single space.
+
+    Args:
+        text (str): Input text with multiple spaces.
+
+    Returns:
+        str: Text with multiple spaces converted to single spaces.
     """
+    return re.sub(r'\s+', ' ', text).strip()
 
-    @staticmethod
-    def Convert_MultipleSpaces(text: str) -> str:
-        """
-        Convert multiple consecutive spaces to a single space.
 
-        Example: "This   is   spaced" → "This is spaced"
+def Convert_ThousandSeparatedNumbers(text: str) -> str:
+    """
+    Remove thousand separators (commas) from numbers in the format like 1,234,567.
 
-        Parameters:
-            text (str): Input string.
+    Args:
+        text (str): Input text containing numbers with thousand separators.
 
-        Returns:
-            str: Cleaned string with single spaces.
-        """
-        return re.sub(r'\s+', ' ', text).strip()
+    Returns:
+        str: Text with thousand separators removed from valid numbers.
+    """
+    pattern = r'\b\d[\d,]*(?:\.\d+)?\b'
 
-    @staticmethod
-    def Convert_ThousandSeparatedNumbers(text: str) -> str:
-        """
-        Convert numbers with comma separators into plain numbers.
+    def remove_commas(match):
+        return match.group(0).replace(',', '')
 
-        Example: "The number is 1,234,567." → "The number is 1234567."
+    return re.sub(pattern, remove_commas, text)
 
-        Parameters:
-            text (str): Input string.
 
-        Returns:
-            str: String with comma-separated numbers converted to plain form.
-        """
-        return re.sub(r'(?<=\d),(?=\d{3}\b)', '', text)
+def Convert_DateFormat(date_str: str, current_sep: str, target_sep: str) -> str:
+    """
+    Convert date format by changing the separator (e.g., from '-' to '/').
 
-    @staticmethod
-    def Convert_DateFormat(date_str: str, current_sep: str = '-', target_sep: str = '/') -> Optional[str]:
-        """
-        Convert date string from one separator to another.
-        Example: "2025-08-02" → "2025/08/02"
+    Args:
+        date_str (str): Input date string (e.g., '2025-08-02').
+        current_sep (str): Current separator (e.g., '-').
+        target_sep (str): Target separator (e.g., '/').
 
-        Parameters:
-            date_str (str): Original date string.
-            current_sep (str): Current separator used in the date (e.g., '-').
-            target_sep (str): Desired separator (e.g., '/').
-
-        Returns:
-            Optional[str]: Reformatted date string or None if invalid.
-        """
-        try:
-            parts = date_str.split(current_sep)
-            if len(parts) == 3:
-                return target_sep.join(parts)
-        except Exception:
-            return None
+    Returns:
+        str: Converted date string or None if invalid.
+    """
+    try:
+        # Collapse multiple consecutive separators into one
+        escaped_sep = re.escape(current_sep)
+        date_str = re.sub(rf'{escaped_sep}+', current_sep, date_str)
+        parts = date_str.split(current_sep)
+        if len(parts) == 3 and all(part.isdigit() for part in parts):
+            return f"{parts[0]}{target_sep}{parts[1]}{target_sep}{parts[2]}"
+        return None
+    except:
         return None
 
-    @staticmethod
-    def Slugify(text: str) -> str:
-        """
-        Convert a given string into a slug usable in URLs.
 
-        Example: "Hello World!" → "hello-world"
+def Slugify(text: str) -> str:
+    """
+    Convert text to a slug (lowercase, hyphen-separated, no special characters).
 
-        Parameters:
-            text (str): Input string.
+    Args:
+        text (str): Input text to slugify.
 
-        Returns:
-            str: Slugified string.
-        """
-        # Remove special characters
-        text = re.sub(r'[^\w\s-]', '', text)
-        # Replace whitespace and underscores with hyphens
-        text = re.sub(r'[\s_]+', '-', text)
-        return text.strip('-').lower()
+    Returns:
+        str: Slugified text.
+    """
+    if not text:
+        return ""
+    # Convert to lowercase
+    text = text.lower()
+    print(text)
+    # Replace spaces, underscores, and special characters with hyphens
+    text = re.sub(r'[\s_]+|[^a-z0-9-]', '-', text)
+    print(text)
+    # Remove multiple consecutive hyphens
+    text = re.sub(r'-+', '-', text)
+    print(text)
+    # Remove leading/trailing hyphens
+    return text.strip('-')

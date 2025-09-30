@@ -1,110 +1,111 @@
 Metadata-Version: 2.4
 Name: rexa
-Version: 0.1.1
-Summary: A powerful regex utility library for validation, extraction, conversion, and formatting
+Version: 0.2.2
+Summary: A powerful regex utility library for validation, extraction, conversion, and formatting.
 Author-email: Arshia Saberian <arshia82sbn@gmail.com>
 Classifier: Programming Language :: Python :: 3
 Classifier: Programming Language :: Python :: 3.10
 Classifier: Programming Language :: Python :: 3.11
 Classifier: Operating System :: OS Independent
+Classifier: Intended Audience :: Developers
+Classifier: Topic :: Software Development :: Libraries :: Python Modules
+Classifier: Topic :: Text Processing :: Linguistic
 Requires-Python: >=3.10
 Description-Content-Type: text/markdown
-Requires-Dist: re
 Requires-Dist: regex
 Requires-Dist: dateparser
 Requires-Dist: pydantic>=2.0.0
+Requires-Dist: nltk
+Requires-Dist: langdetect
 
-# rexa
+# 🎉 Rexa Usage Guide
 
-**rexa** is a lightweight and modular Python library for regular expression (regex) utilities, offering easy-to-use tools for validation, extraction, conversion, and formatting. Designed for developers who need powerful yet readable regex functionalities, `rexa` keeps your code clean and your logic centralized.
-
----
-
-## ✨ Features
-
-- Validate common patterns: email, phone number, IP address, date, etc.
-- Extract specific data from unstructured text.
-- Convert between different formats (dates, numbers, text).
-- Format and normalize messy strings.
-- Fully modular and extensible design.
-- Written in modern Python with object-oriented architecture.
-- Fully tested with `pytest`.
+Welcome to **Rexa**, your one-stop Python library for powerful regex operations and text preprocessing! Whether you’re building web scrapers, form validators, or NLP pipelines, this guide will help you harness Rexa’s full potential.
 
 ---
 
-## 🚀 Quick Start
+## 🔍 1. Validator (`validation.py`)
+Validate and match common patterns with ease:
 
-### Installation
+| Method                      | What it does                                          | Example                                                |
+|-----------------------------|-------------------------------------------------------|--------------------------------------------------------|
+| `Is_Email(s)`               | ✅ Returns True if `s` is a valid email               | `Rex().Is_Email("user@example.com")  # True`         |
+| `Match_Email(s)`            | 🔎 Returns a Match object for valid email, else None  | `Rex().Match_Email("bad@")  # None`                   |
+| `Is_URL(s)`                 | ✅ Validate HTTP/HTTPS URLs                           | `Rex().Is_URL("https://site.io")  # True`             |
+| `Match_URL(s)`              | 🔎 Match URL and capture path/query                   | `m = Rex().Match_URL("site.com/path")`                |
+| `Is_Date_ISO(s)`            | ✅ Check `YYYY-MM-DD` date format                      | `Rex().Is_Date_ISO("2025-08-02")  # True`             |
+| `Match_Date_ISO(s)`         | 🔎 Capture ISO date, if present                       | `Rex().Match_Date_ISO("02/08/2025")  # None`          |
 
-```
-pip install rexa
-```
-
-> Alternatively, if you're cloning manually:
-
-```
-git clone https://github.com/your-username/rexa.git
-cd rexa
-pip install .
-```
+*And many more `Is_*` / `Match_*` methods for phones, UUIDs, etc.*
 
 ---
 
-## 📚 Usage
+## 📥 2. Extractor (`extraction.py`)
+Pull data out of messy text:
 
-```python
-from rexa import Rex
+| Method                          | Extracts…                                | Example                                                      |
+|---------------------------------|------------------------------------------|--------------------------------------------------------------|
+| `Extract_Emails(text)`          | All email addresses                      | `Rex().Extract_Emails("a@a.com b@b.org")` # [`a@a.com`,`b@b.org`] |
+| `Extract_URLs(text)`            | All web links                            | `Rex().Extract_URLs("Go to http://x.com")` # [`http://x.com`]    |
+| `Extract_Dates(text)`           | Dates in ISO/EU formats                  | `Rex().Extract_Dates("2021-01-01 or 01/01/2021")`           |
+| `Extract_Phones(text)`          | Phone numbers (intl & local)             | `Rex().Extract_Phones("+123456789, 09121234567")`           |
 
-rex = Rex()
-
-# Validation
-rex.Is_Email("user@example.com")           # True
-rex.Is_Date("2025-08-02")                  # True
-
-# Extraction
-rex.Extract_Emails("Contact: a@b.com, c@d.com")
-# ['a@b.com', 'c@d.com']
-
-# Conversion
-rex.Convert_DateFormat("02.08.2025", from_sep=".", to_sep="/")
-# '02/08/2025'
-
-# Formatting
-rex.Slugify("Hello, World!")
-# 'hello-world'
-```
+*…plus IPv4, UUIDs, and more.*
 
 ---
 
-## 🗂️ Modules
+## 🔄 3. Converter (`conversion.py`)
+Normalize and reformat strings:
 
-- `validation.py`: Input pattern validation functions
-- `extraction.py`: Email, phone, and pattern extraction
-- `conversion.py`: Format transformations for text and numbers
-- `formatting.py`: Text normalization and cleanup
-
----
-
-## ✅ Tests
-
-All functions are fully tested with `pytest`. To run tests:
-
-```bash
-pytest -q
-```
+| Method                                  | Transforms…                                   | Example                                                      |
+|-----------------------------------------|-----------------------------------------------|--------------------------------------------------------------|
+| `Convert_MultipleSpaces(text)`          | Collapse extra spaces                         | `Rex().Convert_MultipleSpaces("A   B")` → `"A B"`        |
+| `Convert_ThousandSeparatedNumbers(text)`| Strip commas from large numbers               | `Rex().Convert_ThousandSeparatedNumbers("1,000,000")` → `"1000000"` |
+| `Convert_DateFormat(s,from,to)`         | Swap date separators                          | `Rex().Convert_DateFormat("01.01.2025",".","/")` → `"01/01/2025"` |
+| `Slugify(text)`                         | Generate SEO-friendly URL slugs               | `Rex().Slugify("Hello World!")` → `"hello-world"`         |
 
 ---
 
-## 🌐 Compatibility
+## ✨ 4. Formatter (`formatting.py`)
+Clean up and standardize:
 
-- Python 3.7+
-- No external dependencies (only standard library and `re` module)
+| Method                           | Cleans…                          | Example                                            |
+|----------------------------------|----------------------------------|----------------------------------------------------|
+| `Strip_HTMLTags(s)`              | Remove HTML tags                 | `Rex().Strip_HTMLTags("<b>Hi</b>")` → `"Hi"`     |
+| `Normalize_Spaces(s)`            | Single-space normalization       | `Rex().Normalize_Spaces("A   B")` → `"A B"`     |
+| `Remove_ThousandSeparators(s)`   | Drop commas in numbers           | `Rex().Remove_ThousandSeparators("1,234")` → `"1234"` |
+| `Normalize_DateSeparator(s,sep)` | Consistent date delimiter        | `Rex().Normalize_DateSeparator("2021/01.01","-")` → `"2021-01-01"` |
 
 ---
 
-## 🛍️ Feedback & Contributions
+## 🧹 5. TextTools (`texttools.py`)
+Advanced NLP & text cleaning utilities:
 
-Issues, suggestions, and pull requests are welcome!
+| Method                               | Description                              | Example                                                       |
+|--------------------------------------|------------------------------------------|---------------------------------------------------------------|
+| `to_lower(s)`                        | Lowercase entire string                  | `TextTools.to_lower("HELLO")` → `"hello"`                   |
+| `to_upper(s)`                        | Uppercase entire string                  | `TextTools.to_upper("hi")` → `"HI"`                         |
+| `remove_emojis(s)`                   | Strip Unicode emojis                     | `TextTools.remove_emojis("I ❤️ you")` → `"I  you"`         |
+| `remove_numbers(s)`                  | Remove all digits                        | `TextTools.remove_numbers("a1b2")` → `"ab"`                |
+| `remove_usernames(s)`                | Remove `@username` tokens                | `TextTools.remove_usernames("@me hi")` → `" hi"`            |
+| `remove_punctuation(s)`              | Strip punctuation & symbols              | `TextTools.remove_punctuation("Hey!?@")` → `"Hey"`         |
+| `remove_urls_emails(s)`              | Drop URLs & email addresses              | `TextTools.remove_urls_emails("a@b.com http://x")` → `" "`  |
+| `remove_stopwords(s)`                | Filter common words (using NLTK)         | `TextTools.remove_stopwords("the cat sits")` → `"cat sits"`  |
+| `lemmatize_text(s)`                  | Lemmatize tokens                         | `TextTools.lemmatize_text("running")` → `"running"`         |
+| `stem_text(s)`                       | Stem tokens                              | `TextTools.stem_text("running")` → `"run"`                  |
+| `normalize_whitespace(s)`            | Collapse whitespace                      | `TextTools.normalize_whitespace(" A  B\n")` → `"A B"`    |
+| `normalize_arabic(s)`                | Persian/Arabic char mapping & diacritics | `TextTools.normalize_arabic("كیف")` → `"کیف"`              |
+| `count_tokens(s)`                    | Count word tokens                        | `TextTools.count_tokens("a b c")` → `3`                       |
+| `remove_short_long_words(s,min,max)` | Keep words len in range                  | `TextTools.remove_short_long_words("a bb ccc",2,3)` → `"bb ccc"` |
+| `detect_language(s)`                 | Auto-detect text language                | `TextTools.detect_language("hello")` → `"en"`              |
+| `clean_text(...kwargs)`             | Pipeline for common cleaning options     | `TextTools.clean_text("Hi @you 123 😊", lowercase=True, remove_emoji=True, remove_username=True, remove_urls_emails=True, remove_punct=True)` → `"hi"` |
 
-Start using `rexa` today to supercharge your regex workflows with elegant and maintainable Python code.
+---
 
+## 🚀 Quick Tips
+
+- **Mix & Match**: Call only the methods you need or use `clean_text` for a one-shot pipeline.  
+- **Extendable**: Create subclasses to add domain-specific patterns.  
+- **Performance**: For bulk text, parallelize tokenization and regex calls.  
+
+Happy coding with **Rexa**! Questions or feedback? Open an issue at https://github.com/arshia82sbn/rexa/issues

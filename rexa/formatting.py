@@ -1,71 +1,68 @@
 import re
 from typing import Literal
 
+"""
+RexFormatter: A class that provides tools to clean and format strings
+such as removing HTML tags, normalizing spaces, dates, and more.
+"""
 
-class RexFormatter:
+def Strip_HTMLTags(s: str, replace_with: str = '') -> str:
     """
-    RexFormatter: A class that provides tools to clean and format strings
-    such as removing HTML tags, normalizing spaces, dates, and more.
+    Remove all HTML tags from the string.
+
+    Example: "<p>Hello <b>World</b></p>" → "Hello World"
+
+    Parameters:
+        s (str): Input string containing HTML.
+        replace_with (str): Character(s) to replace the tags with. Default is empty.
+
+    Returns:
+        str: Cleaned string with HTML tags removed.
     """
+    TAG_PATTERN = re.compile(r'<[^>]*>?')
+    return TAG_PATTERN.sub(repl=replace_with,string= s)
 
-    @staticmethod
-    def Strip_HTMLTags(s: str, replace_with: str = '') -> str:
-        """
-        Remove all HTML tags from the string.
 
-        Example: "<p>Hello <b>World</b></p>" → "Hello World"
+def Normalize_Spaces(s: str) -> str:
+    """
+    Normalize all multiple spaces and tabs into a single space.
 
-        Parameters:
-            s (str): Input string containing HTML.
-            replace_with (str): Character(s) to replace the tags with. Default is empty.
+    Example: "This    is \t spaced" → "This is spaced"
 
-        Returns:
-            str: Cleaned string with HTML tags removed.
-        """
-        return re.sub(r'<[^>]*>', replace_with, s)
+    Parameters:
+        s (str): Input string.
 
-    @staticmethod
-    def Normalize_Spaces(s: str) -> str:
-        """
-        Normalize all multiple spaces and tabs into a single space.
+    Returns:
+        str: Cleaned string with normalized spaces.
+    """
+    return re.sub(r'\s+', ' ', s).strip()
 
-        Example: "This    is \t spaced" → "This is spaced"
 
-        Parameters:
-            s (str): Input string.
+def Remove_ThousandSeparators(s: str) -> str:
+    """
+    Remove thousands separators from numbers.
 
-        Returns:
-            str: Cleaned string with normalized spaces.
-        """
-        return re.sub(r'\s+', ' ', s).strip()
+    Example: "1,234,567.89" → "1234567.89"
 
-    @staticmethod
-    def Remove_ThousandSeparators(s: str) -> str:
-        """
-        Remove thousands separators from numbers.
+    Parameters:
+        s (str): Input string.
 
-        Example: "1,234,567.89" → "1234567.89"
+    Returns:
+        str: String without thousand separators.
+    """
+    return re.sub(r'(?<=\d),(?=\d)', '', s)
 
-        Parameters:
-            s (str): Input string.
+def Normalize_DateSeparator(s: str, sep: Literal['-', '/', '.'] = '-') -> str:
+    """
+    Normalize different date separators to a single consistent one.
 
-        Returns:
-            str: String without thousand separators.
-        """
-        return re.sub(r'(?<=\d),(?=\d{3}\b)', '', s)
+    Example: "2025/08.02" → "2025-08-02"
 
-    @staticmethod
-    def Normalize_DateSeparator(s: str, sep: Literal['-', '/', '.'] = '-') -> str:
-        """
-        Normalize different date separators to a single consistent one.
+    Parameters:
+        s (str): Input string that may contain dates.
+        sep (Literal['-', '/', '.']): Desired separator.
 
-        Example: "2025/08.02" → "2025-08-02"
-
-        Parameters:
-            s (str): Input string that may contain dates.
-            sep (Literal['-', '/', '.']): Desired separator.
-
-        Returns:
-            str: String with normalized date separators.
-        """
-        return re.sub(r'[-/.]', sep, s)
+    Returns:
+        str: String with normalized date separators.
+    """
+    return re.sub(r'[-/.]', sep, s)

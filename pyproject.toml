@@ -1,29 +1,42 @@
 [project]
 name = "rexa"
-version = "0.2.2"
-description = "A powerful regex utility library for validation, extraction, conversion, and formatting.\nA powerful NLP utility library for some amazing text tools"
+version = "1.0.3"
+description = "A powerful regex and NLP utility library for text validation, extraction, conversion, formatting, and pattern generation."
 readme = "usage_guide.md"
 authors = [
-  { name = "Arshia Saberian", email = "arshia82sbn@gmail.com" }
+    { name = "Arshia Saberian", email = "arshia82sbn@gmail.com" }
 ]
+license = "MIT"
+keywords = ["regex", "nlp", "text-processing", "validation", "extraction", "formatting"]
 dependencies = [
-  "regex",
-  "dateparser",
-  "pydantic >=2.0.0",
-  "nltk",
-  "langdetect"
+    "regex>=2023.10.3",
+    "dateparser>=1.1.8",
+    "pydantic>=2.0.0",
+    "nltk>=3.8.1",
+    "langdetect>=1.0.9"
 ]
 requires-python = ">=3.10"
 classifiers = [
-  "Programming Language :: Python :: 3",
-  "Programming Language :: Python :: 3.10",
-  "Programming Language :: Python :: 3.11",
-  "Operating System :: OS Independent",
-  "Intended Audience :: Developers",
-  "Topic :: Software Development :: Libraries :: Python Modules",
-  "Topic :: Text Processing :: Linguistic"
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Operating System :: OS Independent",
+    "Intended Audience :: Developers",
+    "Topic :: Software Development :: Libraries :: Python Modules",
+    "Topic :: Text Processing :: Linguistic",
+    "License :: OSI Approved :: MIT License"
 ]
 
+[project.urls]
+Homepage = "https://github.com/arshia82sbn/rexa"
+Documentation = "https://rexa.readthedocs.io/"
+Repository = "https://github.com/arshia82sbn/rexa"
+Issues = "https://github.com/arshia82sbn/rexa/issues"
+
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.pytest]
+addopts = "--cov=rexa --cov-report=html --cov-report=term-missing"
+testpaths = ["tests"]

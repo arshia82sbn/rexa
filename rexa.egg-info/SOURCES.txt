@@ -1,9 +1,11 @@
 README.md
 pyproject.toml
+usage_guide.md
 rexa/__init__.py
 rexa/conversion.py
 rexa/extraction.py
 rexa/formatting.py
+rexa/texttools.py
 rexa/validation.py
 rexa.egg-info/PKG-INFO
 rexa.egg-info/SOURCES.txt
