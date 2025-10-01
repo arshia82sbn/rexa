@@ -1,3 +1,4 @@
+LICENSE.txt
 README.md
 pyproject.toml
 usage_guide.md
@@ -5,6 +6,7 @@ rexa/__init__.py
 rexa/conversion.py
 rexa/extraction.py
 rexa/formatting.py
+rexa/regex_mapper.py
 rexa/texttools.py
 rexa/validation.py
 rexa.egg-info/PKG-INFO
@@ -12,4 +14,10 @@ rexa.egg-info/SOURCES.txt
 rexa.egg-info/dependency_links.txt
 rexa.egg-info/requires.txt
 rexa.egg-info/top_level.txt
-tests/test_rex.py
+tests/test_conversion.py
+tests/test_extraction.py
+tests/test_formatting.py
+tests/test_main.py
+tests/test_regex_mapper.py
+tests/test_texttools.py
+tests/test_validation.py

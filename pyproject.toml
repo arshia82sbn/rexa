@@ -1,12 +1,12 @@
 [project]
 name = "rexa"
-version = "1.0.3"
+version = "1.0.4"
 description = "A powerful regex and NLP utility library for text validation, extraction, conversion, formatting, and pattern generation."
 readme = "usage_guide.md"
 authors = [
     { name = "Arshia Saberian", email = "arshia82sbn@gmail.com" }
 ]
-license = "MIT"
+license = { text = "MIT" }
 keywords = ["regex", "nlp", "text-processing", "validation", "extraction", "formatting"]
 dependencies = [
     "regex>=2023.10.3",

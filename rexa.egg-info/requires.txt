@@ -1,5 +1,5 @@
-regex
-dateparser
+regex>=2023.10.3
+dateparser>=1.1.8
 pydantic>=2.0.0
-nltk
-langdetect
+nltk>=3.8.1
+langdetect>=1.0.9
